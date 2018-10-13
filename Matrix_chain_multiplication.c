@@ -1,0 +1,49 @@
+#include<stdio.h>
+#include<limits.h>
+ 
+int MatrixChain(int a[], int n)
+{
+    int m[n][n];
+    int i, j, k, M, q;
+    for (i=1; i<n; i++)
+     m[i][i] = 0;    
+     for (M=2; M<n; M++)
+     {
+       for (i=1; i< n-M+1; i++)
+        {
+          j = i+M-1;
+          m[i][j] = INT_MAX;  
+       for (k=i; k<=j-1; k++)
+         {
+            q = m[i][k] + m[k+1][j] + a[i-1]*a[k]*a[j];
+            if (q < m[i][j])
+            {
+              m[i][j] = q; 
+            }
+         }
+       }
+    }
+  return m[1][n-1];   
+ 
+}
+ 
+int main()
+{
+    int n,i;
+    printf("Enter number of matrices\n");
+    scanf("%d",&n);
+    n++;
+    int arr[n];
+    printf("Enter dimensions :-\n");
+     for(i=0;i<n;i++)
+    {
+        printf("Enter d%d :: ",i);
+        scanf("%d",&arr[i]);
+    }
+ 
+    int size = sizeof(arr)/sizeof(arr[0]);
+ 
+    printf("Minimum number of multiplications is %d ", MatrixChain(arr, size));
+ 
+    return 0;
+}
